@@ -10,7 +10,7 @@ public class UserDao {
         PreparedStatement pstmt = null;
 
         try{
-            con = getConnection();
+            con = ConnectionManager.getConnection();
             String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
             pstmt = con.prepareStatement(sql);
             pstmt.setString(1, user.getUserId());
@@ -27,19 +27,6 @@ public class UserDao {
             if(con!=null){
                 con.close();
             }
-        }
-    }
-
-    private Connection getConnection(){
-        String url ="jdbc:h2:mem://localhost/~/jdbc-practice;MODE=MySQL;DB_CLOSE_DELAY=-1";
-        String id = "sa";
-        String pw = "";
-
-        try{
-            Class.forName("org.h2.Driver");
-            return DriverManager.getConnection(url, id, pw);
-        } catch(Exception ex){
-            return null;
         }
     }
 

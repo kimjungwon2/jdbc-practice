@@ -3,8 +3,23 @@ package org.example;
 import com.zaxxer.hikari.HikariDataSource;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.DriverManager;
 
 public class ConnectionManager {
+
+    public static Connection getConnection(){
+        String url ="jdbc:h2:mem://localhost/~/jdbc-practice;MODE=MySQL;DB_CLOSE_DELAY=-1";
+        String id = "sa";
+        String pw = "";
+
+        try{
+            Class.forName("org.h2.Driver");
+            return DriverManager.getConnection(url, id, pw);
+        } catch(Exception ex){
+            return null;
+        }
+    }
 
     public static DataSource getDataSource(){
         HikariDataSource hikariDataSource = new HikariDataSource();
