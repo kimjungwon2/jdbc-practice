@@ -34,4 +34,7 @@ public class ConnectionManager {
         }
     }
 
+    public static DataSource getDataSource(){
+        return ds;
+    }
 }
