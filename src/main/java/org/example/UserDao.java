@@ -6,41 +6,13 @@ public class UserDao {
 
 
     public void create(User user) throws SQLException{
-        Connection con = null;
-        PreparedStatement pstmt = null;
-
-        try{
-            con = ConnectionManager.getConnection();
-            String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
-            pstmt = con.prepareStatement(sql);
+        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
+        jdbcTemplate.executeUpdate(user,sql, pstmt -> {
             pstmt.setString(1, user.getUserId());
             pstmt.setString(2, user.getPassword());
             pstmt.setString(3, user.getName());
             pstmt.setString(4, user.getEmail());
-
-            pstmt.executeUpdate();
-        } finally{
-            if(pstmt != null){
-                pstmt.close();
-            }
-
-            if(con!=null){
-                con.close();
-            }
-        }
-    }
-
-    public void create2(User user) throws SQLException{
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
-        String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
-        jdbcTemplate.executeUpdate(user,sql, new PreparedStatementSetter() {
-            @Override
-            public void setter(PreparedStatement pstmt) throws SQLException {
-                pstmt.setString(1, user.getUserId());
-                pstmt.setString(2, user.getPassword());
-                pstmt.setString(3, user.getName());
-                pstmt.setString(4, user.getEmail());
-            }
         });
     }
 
